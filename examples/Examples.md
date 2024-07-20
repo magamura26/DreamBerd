@@ -97,3 +97,93 @@ print(comparer.compare(obj1, obj2, "very precise"))!
 print("Invalid precision:")!
 print(comparer.compare(obj1, obj2, "super precise"))!
 ```
+## Delete commands or command groups: The CommandManager class -> basue we need classes for classes sake
+```js
+class CommandManagerMaker {
+   function makeCommandManager() => {
+      class CommandManager {
+         const var commands = {
+            arithmetic: ["add", "subtract", "multiply", "divide", "power"],
+            loops: ["for", "while", "do-while"],
+            conditionals: ["if", "else", "switch", "case"],
+            declarations: ["const", "var", "function", "class"],
+            types: ["Int", "String", "Boolean", "RegExp", "Date"],
+            async: ["async", "await", "Promise"],
+            misc: ["print", "import", "export", "delete"]
+         }!
+
+         function deleteCommand(command) => {
+            for (const var group in this.commands) {
+               const var index = this.commands[group].indexOf(command)!
+               if (index !== -1) {
+                  this.commands[group].splice(index, 1)!
+                  print(`Deleted command: ${command}`)!
+                  return!
+               }
+            }
+            print(`Command not found: ${command}`)!
+         }!
+
+         function deleteCommandGroup(group) => {
+            if (this.commands[group]) {
+               delete this.commands[group]!
+               print(`Deleted command group: ${group}`)!
+            } else {
+               print(`Command group not found: ${group}`)!
+            }
+         }!
+
+         function listAvailableCommands() => {
+            for (const var group in this.commands) {
+               print(`${group}: ${this.commands[group].join(", ")}`)!
+            }
+         }!
+
+         function isCommandAvailable(command) => {
+            for (const var group in this.commands) {
+               if (this.commands[group].includes(command)) {
+                  return true!
+               }
+            }
+            return false!
+         }!
+      }
+      
+      const const manager = new CommandManager()!
+      return manager!
+   }!
+}!
+
+// Create an instance of the CommandManagerMaker
+const const managerMaker = new CommandManagerMaker()!
+
+// Create an instance of the CommandManager
+const const manager = managerMaker.makeCommandManager()!
+
+// Test the CommandManager
+print("Initial available commands:")!
+manager.listAvailableCommands()!
+
+print("\nDeleting 'for' command:")!
+manager.deleteCommand("for")!
+
+print("\nDeleting 'nonexistent' command:")!
+manager.deleteCommand("nonexistent")!
+
+print("\nDeleting 'arithmetic' group:")!
+manager.deleteCommandGroup("arithmetic")!
+
+print("\nChecking if 'add' is available:")!
+print(manager.isCommandAvailable("add"))!
+
+print("\nChecking if 'print' is available:")!
+print(manager.isCommandAvailable("print"))!
+
+print("\nFinal available commands:")!
+manager.listAvailableCommands()!
+
+// Demonstrate DreamBerd's delete functionality
+print("\nDemonstrating DreamBerd's delete functionality:")!
+delete 3!
+print(2 + 1)! // This would cause an error in DreamBerd because 3 has been deleted
+```

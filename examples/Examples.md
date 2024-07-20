@@ -104,7 +104,6 @@ class CommandManagerMaker {
       class CommandManager {
          const var commands = {
             arithmetic: ["add", "subtract", "multiply", "divide", "power"],
-            loops: ["for", "while", "do-while"],
             conditionals: ["if", "else", "switch", "case"],
             declarations: ["const", "var", "function", "class"],
             types: ["Int", "String", "Boolean", "RegExp", "Date"],
@@ -113,15 +112,23 @@ class CommandManagerMaker {
          }!
 
          function deleteCommand(command) => {
-            for (const var group in this.commands) {
+            function deleteFromGroup(group) => {
                const var index = this.commands[group].indexOf(command)!
                if (index !== -1) {
-                  this.commands[group].splice(index, 1)!
+                  this.commands[group] = [
+                     ...this.commands[group].slice(0, index),
+                     ...this.commands[group].slice(index + 1)
+                  ]!
                   print(`Deleted command: ${command}`)!
-                  return!
+                  return true!
                }
+               return false!
+            }!
+
+            const var deleted = Object.keys(this.commands).some(deleteFromGroup)!
+            if (;deleted) {
+               print(`Command not found: ${command}`)!
             }
-            print(`Command not found: ${command}`)!
          }!
 
          function deleteCommandGroup(group) => {
@@ -134,18 +141,13 @@ class CommandManagerMaker {
          }!
 
          function listAvailableCommands() => {
-            for (const var group in this.commands) {
+            Object.keys(this.commands).forEach((group) => {
                print(`${group}: ${this.commands[group].join(", ")}`)!
-            }
+            })!
          }!
 
          function isCommandAvailable(command) => {
-            for (const var group in this.commands) {
-               if (this.commands[group].includes(command)) {
-                  return true!
-               }
-            }
-            return false!
+            return Object.values(this.commands).some((group) => group.includes(command))!
          }!
       }
       
@@ -164,8 +166,8 @@ const const manager = managerMaker.makeCommandManager()!
 print("Initial available commands:")!
 manager.listAvailableCommands()!
 
-print("\nDeleting 'for' command:")!
-manager.deleteCommand("for")!
+print("\nDeleting 'add' command:")!
+manager.deleteCommand("add")!
 
 print("\nDeleting 'nonexistent' command:")!
 manager.deleteCommand("nonexistent")!
@@ -173,8 +175,8 @@ manager.deleteCommand("nonexistent")!
 print("\nDeleting 'arithmetic' group:")!
 manager.deleteCommandGroup("arithmetic")!
 
-print("\nChecking if 'add' is available:")!
-print(manager.isCommandAvailable("add"))!
+print("\nChecking if 'subtract' is available:")!
+print(manager.isCommandAvailable("subtract"))!
 
 print("\nChecking if 'print' is available:")!
 print(manager.isCommandAvailable("print"))!
